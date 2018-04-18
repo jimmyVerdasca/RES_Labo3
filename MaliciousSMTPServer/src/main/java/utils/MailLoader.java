@@ -3,8 +3,8 @@ package utils;
 import dataRepresentation.Mail;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,13 +19,9 @@ import javax.mail.internet.InternetAddress;
  * 
  * @author Jimmy Verdasca
  */
-public class mailLoader {
+public class MailLoader {
 
    List<Mail> mails;
-   
-   public mailLoader() {
-      this.mails = new ArrayList<>();
-   }
    
    private boolean isValidEmailAddress(String email) {
       boolean result = true;
@@ -39,11 +35,16 @@ public class mailLoader {
    }
 
    /**
-    * Load mail address from a simple .txt file
+    * Load mail address from a simple .txt file. 
+    * errase old data
+    * 
     * @param fileName with the extension
     */
    public void loadFromFile(String fileName) {
-      try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+      
+      this.mails = new ArrayList<>();
+      ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+      try(BufferedReader br = new BufferedReader(new InputStreamReader(classloader.getResourceAsStream(fileName)))) {
          for(String line; (line = br.readLine()) != null; ) {
             if(isValidEmailAddress(line)) {
                mails.add(new Mail(line));
@@ -52,12 +53,16 @@ public class mailLoader {
             }
          }
       } catch (FileNotFoundException ex) {
-         System.out.println("le fichier " + fileName + "n'a pas été trouvé");
-         Logger.getLogger(mailLoader.class.getName()).log(Level.SEVERE, null, ex);
+         System.out.println("le fichier " + fileName + " n'a pas été trouvé");
+         Logger.getLogger(MailLoader.class.getName()).log(Level.SEVERE, null, ex);
       } catch (IOException ex) {
          System.out.println("erreur lors de la lecture des lignes du fichier " + fileName);
-         Logger.getLogger(mailLoader.class.getName()).log(Level.SEVERE, null, ex);
+         Logger.getLogger(MailLoader.class.getName()).log(Level.SEVERE, null, ex);
       }
+   }
+
+   public List<Mail> getMails() {
+      return mails;
    }
    
 }

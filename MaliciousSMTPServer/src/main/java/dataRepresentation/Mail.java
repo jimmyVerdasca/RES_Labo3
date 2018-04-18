@@ -3,26 +3,26 @@ package dataRepresentation;
 /**
  * This class represent a mail address
  * 
- * This class could be jsonified
- * 
  * @author Jimmy Verdasca
  */
 public class Mail {
    String mailAdress;
+   String firstName;
+   String lastName;
 
-   /**
-    * Constructor
-    */
-   public Mail() {
-   }
-   
    /**
     * Constructor
     * 
     * @param mailAdress the adress mail as string 
     */
    public Mail(String mailAdress) {
+      this(mailAdress, '.');
+   }
+   
+   public Mail(String mailAdress, char separator) {
       this.mailAdress = mailAdress;
+      this.firstName = mailAdress.substring(0, mailAdress.indexOf(separator));
+      this.lastName = mailAdress.substring(mailAdress.indexOf(separator), mailAdress.indexOf('@'));
    }
 
    /**
@@ -40,5 +40,17 @@ public class Mail {
     */
    public void setMailAdress(String mailAdress) {
       this.mailAdress = mailAdress;
+   }
+
+   /**
+    * return the first name of the person
+    * @return 
+    */
+   public String getFirstName() {
+      return firstName;
+   }
+
+   public String getLastName() {
+      return lastName;
    }
 }

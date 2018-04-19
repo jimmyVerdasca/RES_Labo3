@@ -14,4 +14,6 @@ public class Constants {
    public static boolean DEFAULT_SHUFFLE = true;
    public static String PRANK_SEPARATOR = "====";
    public static String PRANK_SUBJECT_DETECTION = "Subject:";
+   public static String SENDER_REPLACEMENT = "senderX";
+   public static String VICTIM_REPLACEMENT = "victimX";
 }

@@ -14,6 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import static utils.Constants.PRANK_SEPARATOR;
 import static utils.Constants.PRANK_SUBJECT_DETECTION;
+import static utils.Constants.SENDER_REPLACEMENT;
+import static utils.Constants.VICTIM_REPLACEMENT;
 
 /**
  * This class load Pranks from a txt file and create a list of Prank
@@ -68,8 +70,18 @@ public class PrankLoader {
          for (Prank prank : pranks) {
             Random random = new Random();
             int rand = random.nextInt(listTextPrank.size());
-            prank.setText(listTextPrank.get(rand));
-            pranks.get(prankID).setSubject(listSubjectPrank.get(rand));
+            //personnalize the text
+            Mail sender = prank.getSenderVictim();
+            Mail victim = prank.getRecipientsVictims().get(0);
+            String text = listTextPrank.get(rand);
+            if(text.contains(SENDER_REPLACEMENT)) {
+               text = text.replace(SENDER_REPLACEMENT, sender.getFirstName() + " " + sender.getLastName());
+            }
+            if(text.contains(VICTIM_REPLACEMENT)) {
+               text = text.replace(VICTIM_REPLACEMENT, victim.getFirstName() + " " + victim.getLastName());
+            }
+            prank.setText(text);
+            prank.setSubject(listSubjectPrank.get(rand));
          }
       } catch (FileNotFoundException ex) {
          System.out.println("le fichier " + FILENAME + " n'a pas été trouvé");

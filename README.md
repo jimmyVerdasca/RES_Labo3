@@ -6,8 +6,11 @@ This project is an SMTP mail prank generator. You can configure it easily to sen
 ## how to configure the mock server with docker
 
 To configure the mock server first, run the docker quickstart terminal. Then move to our project folder named "MockServer". You can use cd path to reach it fastly. Once you are in the correct folder, just run those two command line :
-![GitHub Logo](/images/dockerBuild.png)
-![GitHub Logo](/images/dockerRun.png)
+![GitHub Logo](https://github.com/jimmyVerdasca/RES_Labo3/blob/master/figures/dockerBuild.PNG)
+Format: ![Alt Text](url)
+![GitHub Logo](https://github.com/jimmyVerdasca/RES_Labo3/blob/master/figures/dockerRun.PNG)
+Format: ![Alt Text](url)
 There you are ready! your mock server is running in a docker container. you can go in your favorite browser and search 192.168.99.100:8080
 You will find an empty mail queue as followed : 
-![GitHub Logo](/images/mockstarted.png)
+![GitHub Logo](https://github.com/jimmyVerdasca/RES_Labo3/blob/master/figures/mockstarted.PNG)
+Format: ![Alt Text](url)

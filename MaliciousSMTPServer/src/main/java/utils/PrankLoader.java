@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static utils.Constants.FILENAME;
 import static utils.Constants.PRANK_SEPARATOR;
 import static utils.Constants.PRANK_SUBJECT_DETECTION;
 import static utils.Constants.SENDER_REPLACEMENT;
@@ -30,8 +31,11 @@ public class PrankLoader {
    
    private List<Prank> pranks;
    private GroupPrank groups;
-   private final String FILENAME = "pranks.txt";
 
+   public PrankLoader(GroupPrank groups) throws FileNotFoundException, MalformedPrankError, IOException {
+      this(groups, FILENAME);
+   }
+   
    /**
     * constructor
     * 
@@ -41,14 +45,15 @@ public class PrankLoader {
     * 
     * @param groups the group prank list containing the victims information
     * @throws FileNotFoundException if the resource file isn't found
+    * @throws utils.MalformedPrankError if the loaded file has bad structure
     * @throws IOException if there is a line reading error
     */
-   public PrankLoader(GroupPrank groups) throws FileNotFoundException, IOException {
+   public PrankLoader(GroupPrank groups, String fileName) throws FileNotFoundException, MalformedPrankError, IOException {
       this.groups = groups;
       pranks = groups.getPranks();
       
       ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-      try(BufferedReader br = new BufferedReader(new InputStreamReader(classloader.getResourceAsStream(FILENAME)))) {
+      try(BufferedReader br = new BufferedReader(new InputStreamReader(classloader.getResourceAsStream(fileName)))) {
          int prankID = 0;
          List<String> listTextPrank = new ArrayList<>();
          List<String> listSubjectPrank = new ArrayList<>();
@@ -64,6 +69,12 @@ public class PrankLoader {
             } else {
                textPrank += line;
             }
+         }
+         
+         if(listSubjectPrank.size() != listTextPrank.size()) {
+            throw new MalformedPrankError("the prank loaded not the same number of subject and text");
+         } else if(listTextPrank.isEmpty()) {
+            throw new MalformedPrankError("0 prank found");
          }
          
          // associate random text and subject red previously to the groups of prank
@@ -84,11 +95,11 @@ public class PrankLoader {
             prank.setSubject(listSubjectPrank.get(rand));
          }
       } catch (FileNotFoundException ex) {
-         System.out.println("le fichier " + FILENAME + " n'a pas été trouvé");
+         System.out.println("le fichier " + fileName + " n'a pas été trouvé");
          Logger.getLogger(MailLoader.class.getName()).log(Level.SEVERE, null, ex);
          throw ex;
       } catch (IOException ex) {
-         System.out.println("erreur lors de la lecture des lignes du fichier " + FILENAME);
+         System.out.println("erreur lors de la lecture des lignes du fichier " + fileName);
          Logger.getLogger(MailLoader.class.getName()).log(Level.SEVERE, null, ex);
          throw ex;
       }

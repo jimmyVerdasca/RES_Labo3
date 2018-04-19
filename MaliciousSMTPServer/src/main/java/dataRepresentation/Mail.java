@@ -22,7 +22,7 @@ public class Mail {
    public Mail(String mailAdress, char separator) {
       this.mailAdress = mailAdress;
       this.firstName = mailAdress.substring(0, mailAdress.indexOf(separator));
-      this.lastName = mailAdress.substring(mailAdress.indexOf(separator), mailAdress.indexOf('@'));
+      this.lastName = mailAdress.substring(mailAdress.indexOf(separator) + 1, mailAdress.indexOf('@'));
    }
 
    /**

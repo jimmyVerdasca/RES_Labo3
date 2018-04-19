@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static utils.Constants.FILENAME;
 import static utils.Constants.PRANK_SEPARATOR;
 import static utils.Constants.PRANK_SUBJECT_DETECTION;
 import static utils.Constants.SENDER_REPLACEMENT;
 import static utils.Constants.VICTIM_REPLACEMENT;
+import static utils.Constants.FILENAME_PRANKS;
 
 /**
  * This class load Pranks from a txt file and create a list of Prank
@@ -33,7 +33,7 @@ public class PrankLoader {
    private GroupPrank groups;
 
    public PrankLoader(GroupPrank groups) throws FileNotFoundException, MalformedPrankError, IOException {
-      this(groups, FILENAME);
+      this(groups, FILENAME_PRANKS);
    }
    
    /**
@@ -53,7 +53,7 @@ public class PrankLoader {
       pranks = groups.getPranks();
       
       ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-      try(BufferedReader br = new BufferedReader(new InputStreamReader(classloader.getResourceAsStream(fileName)))) {
+      try(BufferedReader br = new BufferedReader(new InputStreamReader(classloader.getResourceAsStream(fileName), "UTF-8"))) {
          int prankID = 0;
          List<String> listTextPrank = new ArrayList<>();
          List<String> listSubjectPrank = new ArrayList<>();

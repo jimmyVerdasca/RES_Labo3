@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import static utils.Constants.FILENAME_MAILS;
 
 /**
  * this class is able to read a txt file containing a mail in each row.
@@ -63,6 +64,10 @@ public class MailLoader {
 
    public List<Mail> getMails() {
       return mails;
+   }
+
+   public void loadFromFile() {
+      this.loadFromFile(FILENAME_MAILS);
    }
    
 }

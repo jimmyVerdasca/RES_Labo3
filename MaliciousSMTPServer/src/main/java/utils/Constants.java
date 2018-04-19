@@ -12,4 +12,6 @@ package utils;
 public class Constants {
    public static int DEFAULT_GROUP_SIZE = 3;
    public static boolean DEFAULT_SHUFFLE = true;
+   public static String PRANK_SEPARATOR = "====";
+   public static String PRANK_SUBJECT_DETECTION = "Subject:";
 }

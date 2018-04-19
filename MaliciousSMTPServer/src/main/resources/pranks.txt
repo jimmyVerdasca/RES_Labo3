@@ -1,6 +1,4 @@
-Subject:
-plagia
-Text:
+Subject:plagia
 Salut victimX,
 
 Après avoir copié ton code du labo3 de RES, j'ai remarqué que ton code ressemblait beaucoup au miens.
@@ -8,9 +6,7 @@ J'ai donc averti Liechti afin qu'il prenne les mesures nécessaires.
 
 Amicalement senderX.
 ====
-Subject:
-chat
-Text:
+Subject:chat
 Bonjour à tous,
 
 Hier mon chat machiavélique à disparu. Si vous remarquez un chat proche du chill avec quelques bière dans le sang et une feuille blanche remplit de 1 près de lui.
@@ -18,8 +14,6 @@ Veuillez me recontacter.
 
 En vous remerciant d'avance senderX.
 ====
-Subject:
-déclaration
-Text:
+Subject:déclaration
 Pitié ne me quitte pas victimX! Les émotions que tu m'as fais vivre hier soir, je ne peux plus m'en passer!
 ====

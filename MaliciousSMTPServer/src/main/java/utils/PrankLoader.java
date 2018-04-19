@@ -9,8 +9,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static utils.Constants.PRANK_SEPARATOR;
+import static utils.Constants.PRANK_SUBJECT_DETECTION;
 
 /**
  * This class load Pranks from a txt file and create a list of Prank
@@ -44,8 +47,29 @@ public class PrankLoader {
       
       ClassLoader classloader = Thread.currentThread().getContextClassLoader();
       try(BufferedReader br = new BufferedReader(new InputStreamReader(classloader.getResourceAsStream(FILENAME)))) {
+         int prankID = 0;
+         List<String> listTextPrank = new ArrayList<>();
+         List<String> listSubjectPrank = new ArrayList<>();
+         String textPrank = "";
          for(String line; (line = br.readLine()) != null; ) {
-            //TODO read the pranks and fill pranks with the information got
+            if(line.equals(PRANK_SEPARATOR)) {
+               listTextPrank.add(textPrank);
+               prankID++;
+               textPrank = "";
+            } else if (line.contains(PRANK_SUBJECT_DETECTION)) {
+               listSubjectPrank.add(line.replace(PRANK_SUBJECT_DETECTION, ""));
+               
+            } else {
+               textPrank += line;
+            }
+         }
+         
+         // associate random text and subject red previously to the groups of prank
+         for (Prank prank : pranks) {
+            Random random = new Random();
+            int rand = random.nextInt(listTextPrank.size());
+            prank.setText(listTextPrank.get(rand));
+            pranks.get(prankID).setSubject(listSubjectPrank.get(rand));
          }
       } catch (FileNotFoundException ex) {
          System.out.println("le fichier " + FILENAME + " n'a pas été trouvé");

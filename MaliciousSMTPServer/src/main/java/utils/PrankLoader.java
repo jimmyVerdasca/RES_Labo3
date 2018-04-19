@@ -1,8 +1,16 @@
 package utils;
 
+import dataRepresentation.GroupPrank;
 import dataRepresentation.Mail;
 import dataRepresentation.Prank;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class load Pranks from a txt file and create a list of Prank
@@ -15,43 +23,42 @@ import java.util.List;
  */
 public class PrankLoader {
    
-   List<Prank> pranks;
-   List<Mail> victims;
-   boolean isGroupSizeEnough;
-   int quantityOfGroups;
-   int sizeGroups;
-   int lastGroupSize;
+   private List<Prank> pranks;
+   private GroupPrank groups;
+   private final String FILENAME = "pranks.txt";
 
    /**
     * constructor
     * 
-    * @param quantityOfGroups number of groups of prank we want
-    * @param victims the mail list of the victims
-    */
-   public PrankLoader(int quantityOfGroups, List<Mail> victims) {
-      this.victims = victims;
-      this.quantityOfGroups = quantityOfGroups;
-      if(victims.size() < quantityOfGroups * 3 || quantityOfGroups <= 0) {
-         isGroupSizeEnough = false;
-      } else {
-         isGroupSizeEnough = true;
-         sizeGroups = victims.size() / quantityOfGroups;
-         lastGroupSize = sizeGroups + victims.size() % quantityOfGroups;
-      }
-   }
-   
-   /**
     * load the pranks from the given resource file. Plus "personalize" them 
     * by replacing "senderX" by the name of the sender victim
-    * and by replacing "senderY" by the name of one recipient victim
+    * and by replacing "victimX" by the name of one recipient victim
     * 
-    * @param filename name of the file in resource that contains the pranks
+    * @param groups the group prank list containing the victims information
+    * @throws FileNotFoundException if the resource file isn't found
+    * @throws IOException if there is a line reading error
     */
-   public void loadPranks(String filename) {
-      if(isGroupSizeEnough) {
-         
-      } else {
-         throw new NotEnoughVictimsError("the groupe size is too big ("+quantityOfGroups+") for the current number of victim ("+victims.size()+")");
+   public PrankLoader(GroupPrank groups) throws FileNotFoundException, IOException {
+      this.groups = groups;
+      pranks = groups.getPranks();
+      
+      ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+      try(BufferedReader br = new BufferedReader(new InputStreamReader(classloader.getResourceAsStream(FILENAME)))) {
+         for(String line; (line = br.readLine()) != null; ) {
+            //TODO read the pranks and fill pranks with the information got
+         }
+      } catch (FileNotFoundException ex) {
+         System.out.println("le fichier " + FILENAME + " n'a pas été trouvé");
+         Logger.getLogger(MailLoader.class.getName()).log(Level.SEVERE, null, ex);
+         throw ex;
+      } catch (IOException ex) {
+         System.out.println("erreur lors de la lecture des lignes du fichier " + FILENAME);
+         Logger.getLogger(MailLoader.class.getName()).log(Level.SEVERE, null, ex);
+         throw ex;
       }
+   }
+
+   public List<Prank> getPranks() {
+      return pranks;
    }
 }

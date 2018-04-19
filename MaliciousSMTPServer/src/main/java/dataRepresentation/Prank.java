@@ -12,9 +12,19 @@ import java.util.List;
 public class Prank {
    private String subject;
    private String text;
-   private String senderVictim;
-   private List<String> recipientsVictims;
+   private Mail senderVictim;
+   private List<Mail> recipientsVictims;
 
+   /**
+    * Constructor
+    * 
+    * @param senderVictim
+    * @param recipientsVictims 
+    */
+   public Prank(Mail senderVictim, List<Mail> recipientsVictims) {
+      this("", "", senderVictim, recipientsVictims);
+   }
+   
    /**
     * Constructor
     * 
@@ -23,18 +33,18 @@ public class Prank {
     * @param senderVictim
     * @param recipientsVictims 
     */
-   public Prank(String subject, String text, String senderVictim, List<String> recipientsVictims) {
+   public Prank(String subject, String text, Mail senderVictim, List<Mail> recipientsVictims) {
       this.subject = subject;
       this.text = text;
       this.senderVictim = senderVictim;
       this.recipientsVictims = recipientsVictims;
    }
 
-   public List<String> getRecipientsVictims() {
+   public List<Mail> getRecipientsVictims() {
       return recipientsVictims;
    }
 
-   public String getSenderVictim() {
+   public Mail getSenderVictim() {
       return senderVictim;
    }
 
@@ -44,5 +54,21 @@ public class Prank {
 
    public String getText() {
       return text;
+   }
+
+   public void setText(String text) {
+      this.text = text;
+   }
+
+   public void setRecipientsVictims(List<Mail> recipientsVictims) {
+      this.recipientsVictims = recipientsVictims;
+   }
+
+   public void setSenderVictim(Mail senderVictim) {
+      this.senderVictim = senderVictim;
+   }
+
+   public void setSubject(String subject) {
+      this.subject = subject;
    }
 }

@@ -21,7 +21,7 @@ first run a command line then write :
 telnet 192.168.99.100 25000
 now you are connected to the mock server, you can begin to write the smtp protocol. You can see a full mail sending in the following image.
 
-![GitHub Logo](https://github.com/jimmyVerdasca/RES_Labo3/blob/master/figures/exampleOfSMTP.PNG)
+![GitHub Logo](https://github.com/jimmyVerdasca/RES_Labo3/blob/master/figures/exampleOfSMTP.png)
 
 ## how to configure and run the project
 If you ant to run the project, you just need to provide 2 to 4 arguments to launch the .jar. In the order you the parameters are :

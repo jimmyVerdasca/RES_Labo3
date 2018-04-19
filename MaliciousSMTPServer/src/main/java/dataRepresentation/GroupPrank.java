@@ -8,6 +8,8 @@ package dataRepresentation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import static utils.Constants.DEFAULT_GROUP_SIZE;
+import static utils.Constants.DEFAULT_SHUFFLE;
 import utils.NotEnoughVictimsError;
 
 /**
@@ -20,42 +22,50 @@ public class GroupPrank {
 
    private int quantityOfGroups;
    private int sizeGroups;
-   private int lastGroupSize;
    private List<Mail> victims;
    private List<Prank> pranks;
+   
+   public GroupPrank(int quantityGroups, List<Mail> victims) throws NotEnoughVictimsError {
+      this(quantityGroups, DEFAULT_GROUP_SIZE, victims, DEFAULT_SHUFFLE);
+   }
+   
+   public GroupPrank(int quantityGroups, int sizeGroups, List<Mail> victims) throws NotEnoughVictimsError {
+      this(quantityGroups, sizeGroups, victims, DEFAULT_SHUFFLE);
+   }
    
    /**
     * build the List of Group filled with victims information but without any text info
     * 
     * @param quantityGroups
+    * @param sizeGroups
     * @param victims
+    * @param needShuffle
     * @throws NotEnoughVictimsError 
     */
-   public GroupPrank(int quantityGroups, List<Mail> victims) throws NotEnoughVictimsError {
+   public GroupPrank(int quantityGroups, int sizeGroups, List<Mail> victims, boolean needShuffle) throws NotEnoughVictimsError {
       this.victims = victims;
-      if(victims.size() < quantityOfGroups * 3 || quantityOfGroups <= 0) {
-         throw new NotEnoughVictimsError("the size of groups is not enough for the quantity of victims given");
-      } else {
-         sizeGroups = victims.size() / quantityOfGroups;
-         lastGroupSize = victims.size() % quantityOfGroups;
+      this.sizeGroups = sizeGroups;
+      this.quantityOfGroups = quantityGroups;
+      if(victims.size() < quantityOfGroups * sizeGroups || quantityOfGroups <= 0 || sizeGroups < 3) {
+         throw new NotEnoughVictimsError("the size of groups ("+sizeGroups+") with amount of group ("+quantityGroups+") is not enough for the quantity of victims ("+victims.size()+") given");
+      }
+      
+      if(needShuffle) {
          Collections.shuffle(this.victims);
-         List<Mail> victimOfGroup = new ArrayList<Mail>();
-         List<Prank> pranks = new ArrayList<Prank>();
-         // create the groups
-         for(int i = 0; i < quantityOfGroups; i++) {
-            //create the list of victims for this group
-            victimOfGroup.clear();
-            for(int j = 0; j < sizeGroups - 1; j++) {
-               victimOfGroup.add(this.victims.get(i * sizeGroups + j));
-            }
-            // fill last group with rest of victim not assigned
+      }
+      List<Mail> victimOfGroup;
+      this.pranks = new ArrayList<>();
+      
+      // create the groups
+      for(int i = 0; i < quantityOfGroups; i++) {
 
-            for(int k = this.victims.size(); k < this.victims.size() - lastGroupSize; k--) {
-               victimOfGroup.add(this.victims.get(k));
-            }
-            pranks.add(new Prank(this.victims.get(i * sizeGroups), victimOfGroup));
-
+         //create the list of victims for this group
+         victimOfGroup = new ArrayList<>();
+         for(int j = 1; j < sizeGroups; j++) {
+            System.out.println(i * sizeGroups + j);
+            victimOfGroup.add(this.victims.get(i * sizeGroups + j));
          }
+         pranks.add(new Prank(this.victims.get(i * sizeGroups), victimOfGroup));
       }
    }
 
